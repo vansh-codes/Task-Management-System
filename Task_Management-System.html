@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Task management</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+    <style>
+        body{
+            background-color: seagreen;
+        }
+
+        h2{
+            text-align: center;
+            margin-top: 25px;
+        }
+        
+        .container{
+            margin-bottom: 55px;
+        }
+
+        .input{
+            border: 2px solid white;
+            border-radius: 5px;
+            width: 45%;
+            margin-top: 4px;
+        }
+
+        #add{
+            margin-top: 18px;
+        }
+
+        .footer{
+            position: fixed;
+            padding: 10px 10px 0px 10px;
+            bottom: 0;
+            width: 100%;
+            height: 40px;
+            background: rgb(8, 100, 48);
+            text-align: center;
+            color: white;
+        }
+
+    </style>
+</head>
+<body>
+    <h2>Task Management</h2><br><br>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-3">
+                <form action="">
+                    Add new Task: <br> <input type="text" placeholder="Enter Task" name="input" id="input" class="input" maxlength="30">
+                </form>
+            </div>
+            <div class="col-md-3">
+                Select Priority <br>
+                <select name="" id="priority" class="input">
+                    <option value="Low">Low</option>
+                    <option value="Medium">Medium</option>
+                    <option value="High">High</option>
+                </select>
+            </div>
+            <div>
+                <button class="btn btn-primary" id="add" onclick="addTask()">Add task</button>
+            </div>
+        </div>
+
+        <br>
+        <h3 id="text">Tasks: &nbsp;&nbsp;&nbsp;<span id="message" style="font-weight: 100; font-size: smaller;"></span></h3>
+        
+        <table id="table" class="table">
+            <tr>
+                <th>Task</th>
+                <th>Priority</th>
+                <th>Status</th>
+                <th>Actions</th>
+            </tr>
+            <tbody id="tasks">
+
+            </tbody>
+        </table>
+        
+    </div>
+
+    <div class="footer">
+        &copy;<a href="https://github.com/vansh-codes/" style="color: white;"> vansh-codes</a> 2024
+    </div>
+
+
+    <script>
+               
+        function addTask(){
+            let input = document.getElementById("input");
+            let taskName = input.value;
+            let priority = document.getElementById("priority").value;
+            let status = 'pending';
+            
+            if(taskName.trim() == ''){
+                alert("Please enter a task");
+                return;
+            }
+            
+            let tasks = document.getElementById("tasks");
+            const newRow = tasks.insertRow();
+            newRow.innerHTML = 
+            `
+                <td>${taskName}</td>
+                <td>${priority}</td>
+                <td>${status}</td>
+                <td>
+                    <button class="btn btn-success" onclick="completeTask(this)">Complete</button>
+                    <button class="btn btn-danger" onclick="deleteTask(this)">Delete</button>
+                </td>
+            `;
+
+            document.getElementById("message").textContent = "Task added successfully";
+            setTimeout(function(){
+                document.getElementById("message").textContent = "";
+            },1000);
+
+            input.value = '';
+        }
+
+        function completeTask(button){
+            const row = button.closest('tr');
+            if(row.cells[2].textContent == 'Completed'){
+                alert("Task already completed");    
+            }
+            row.cells[2].textContent = 'Completed';
+            document.getElementById("message").textContent = "Task completed successfully";
+            setTimeout(function(){
+                document.getElementById("message").textContent = "";
+            },1000);
+
+        }
+
+        function deleteTask(button){
+            const row = button.closest('tr');
+            row.remove();
+            document.getElementById("message").textContent = "Task deleted successfully";
+            setTimeout(function(){
+                document.getElementById("message").textContent = "";
+            },1000);
+        }
+
+    </script>
+</body>
+</html>
